@@ -1,4 +1,4 @@
-import { IPoints } from "./fetchData";
+import { type IPoints } from "./fetchData";
 
 export type TimesResponse = TimesData[];
 
@@ -15,3 +15,5 @@ export interface IDataFileNames {
   tracks: string;
   times: string;
 }
+
+//generated

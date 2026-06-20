@@ -1,14 +1,10 @@
-// vite.config.js
 import { defineConfig } from "vite";
-import react from "@vitejs/plugin-react";
+import react, { reactCompilerPreset } from "@vitejs/plugin-react";
+import babel from "@rolldown/plugin-babel";
 
+// https://vite.dev/config/
 export default defineConfig({
-  plugins: [react()],
-  //   build: {
-  //     // 'hidden' uploads maps to services but doesn't expose them publicly
-  //     sourcemap: "hidden",
-  //   },
-
+  plugins: [react(), babel({ presets: [reactCompilerPreset()] })],
   server: {
     // cors: true,
     // OR allow specific origins (recommended)

@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: MIT
 // Copyright (c) vis.gl contributors
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { createRoot } from "react-dom/client";
 import {
   Map,
@@ -13,10 +13,10 @@ import {
 import { GeoJsonLayer, ArcLayer } from "deck.gl";
 import {
   MapboxOverlay as DeckOverlay,
-  MapboxOverlayProps,
+  type MapboxOverlayProps,
 } from "@deck.gl/mapbox";
 import "maplibre-gl/dist/maplibre-gl.css";
-import { fetchPoints } from "./data/fetchData";
+import { fetchPoints, type IPoints } from "./data/fetchData";
 
 // source: Natural Earth http://www.naturalearthdata.com/ via geojson.xyz
 const AIR_PORTS =
@@ -47,10 +47,18 @@ const DeckGLOverlay = (props: MapboxOverlayProps) => {
 function Root() {
   const [selected, setSelected] = useState(null);
 
+  const [data, setData] = useState<IPoints | null>(null);
+
+  useEffect(() => {
+    fetchPoints("PS_tracks.json").then((points) => {
+      setData(points);
+    });
+  }, []);
+
   const layers = [
     new GeoJsonLayer({
       id: "airports",
-      data: fetchPoints("PS_tracks.json"),
+      data: data,
       // Styles
       filled: true,
       pointRadiusMinPixels: 2,
@@ -90,6 +98,7 @@ function Root() {
           {selected.properties.name} ({selected.properties.abbrev})
         </Popup>
       )}
+
       <DeckGLOverlay layers={layers} /* interleaved*/ />
       <NavigationControl position="top-left" />
     </Map>

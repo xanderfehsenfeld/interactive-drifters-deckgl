@@ -1,6 +1,6 @@
 "use server";
 
-import { TimesResponse } from "./types";
+import { type TimesResponse } from "./types";
 
 interface Track {
   x: number[];
@@ -68,7 +68,7 @@ interface Feature {
   geometry: Geometry;
 }
 
-export const fetchPoints = async (filename: string): Promise<Root> => {
+export const fetchPoints = async (filename: string) => {
   const tracksResponse = await fetch(`${baseUrl}${filename}`);
 
   const points = getPoints(await tracksResponse.json())[4];
