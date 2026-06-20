@@ -3,8 +3,8 @@
 import { type TimesResponse } from "./types";
 
 interface Track {
-  x: number[];
-  y: number[];
+  x: string[];
+  y: string[];
 }
 
 export interface IPoints {
@@ -48,7 +48,7 @@ const getPoints = (tracksTyped: Track[]): IPoints[] => {
           },
           geometry: {
             type: "Point",
-            coordinates: [longitude, latitude],
+            coordinates: [parseFloat(longitude), parseFloat(latitude)],
           },
         };
       }),

@@ -58,17 +58,17 @@ function Root() {
   const layers = [
     new GeoJsonLayer({
       id: "airports",
-      data: data,
+      data: data as IPoints,
       // Styles
       filled: true,
       pointRadiusMinPixels: 2,
-      pointRadiusScale: 2000,
-      getPointRadius: (f) => 11 - f.properties.scalerank,
+      pointRadiusScale: 1,
+      getPointRadius: (f) => 10,
       getFillColor: [200, 0, 80, 180],
       // Interactive props
       pickable: true,
       autoHighlight: true,
-      onClick: (info) => setSelected(info.object),
+      // onClick: (info) => setSelected(info.object),
       // beforeId: 'watername_ocean' // In interleaved mode, render the layer under map labels
     }),
     new ArcLayer({
