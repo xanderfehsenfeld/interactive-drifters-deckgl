@@ -61,9 +61,15 @@ function Root() {
       data: data as IPoints,
       // Styles
       filled: true,
-      pointRadiusMinPixels: 2,
-      pointRadiusScale: 1,
-      getPointRadius: (f) => 10,
+      // pointRadiusMinPixels: 10,
+      // pointRadiusMaxPixels: 2,
+      pointRadiusScale: 2,
+      pointRadiusUnits: "meters",
+
+      getPointRadius: (f) => 500,
+
+      pointAntialiasing: true,
+
       getFillColor: [200, 0, 80, 180],
       // Interactive props
       pickable: true,
@@ -101,6 +107,8 @@ function Root() {
 
       <DeckGLOverlay layers={layers} /* interleaved*/ />
       <NavigationControl position="top-left" />
+
+      <NavigationControl position="bottom-right" />
     </Map>
   );
 }
