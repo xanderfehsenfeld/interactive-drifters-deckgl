@@ -15,5 +15,3 @@ export interface IDataFileNames {
   tracks: string;
   times: string;
 }
-
-//generated

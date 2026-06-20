@@ -36,8 +36,8 @@ const getPoints = (tracksTyped: Track[]): IPoints[] => {
     return {
       type: "FeatureCollection",
       features: points.map(({ x, y }, id) => {
-        const latitude = y[timeIndex];
-        const longitude = x[timeIndex];
+        const latitude = parseFloat(y[timeIndex]);
+        const longitude = parseFloat(x[timeIndex]);
 
         return {
           type: "Feature",
@@ -48,7 +48,7 @@ const getPoints = (tracksTyped: Track[]): IPoints[] => {
           },
           geometry: {
             type: "Point",
-            coordinates: [parseFloat(longitude), parseFloat(latitude)],
+            coordinates: [longitude, latitude],
           },
         };
       }),
@@ -57,16 +57,6 @@ const getPoints = (tracksTyped: Track[]): IPoints[] => {
 };
 
 const baseUrl = "/api/";
-
-interface Root {
-  type: string;
-  features: Feature[];
-}
-
-interface Feature {
-  type: string;
-  geometry: Geometry;
-}
 
 export const fetchPoints = async (filename: string) => {
   const tracksResponse = await fetch(`${baseUrl}${filename}`);

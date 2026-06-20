@@ -2,14 +2,9 @@
 // SPDX-License-Identifier: MIT
 // Copyright (c) vis.gl contributors
 
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { createRoot } from "react-dom/client";
-import {
-  Map,
-  NavigationControl,
-  Popup,
-  useControl,
-} from "react-map-gl/maplibre";
+import { Map, NavigationControl, useControl } from "react-map-gl/maplibre";
 import { GeoJsonLayer, ArcLayer } from "deck.gl";
 import {
   MapboxOverlay as DeckOverlay,
@@ -45,8 +40,6 @@ const DeckGLOverlay = (props: MapboxOverlayProps) => {
 };
 
 function Root() {
-  const [selected, setSelected] = useState(null);
-
   const [data, setData] = useState<IPoints | null>(null);
 
   useEffect(() => {
@@ -66,7 +59,7 @@ function Root() {
       pointRadiusScale: 2,
       pointRadiusUnits: "meters",
 
-      getPointRadius: (f) => 500,
+      getPointRadius: () => 500,
 
       pointAntialiasing: true,
 
@@ -80,10 +73,10 @@ function Root() {
     new ArcLayer({
       id: "arcs",
       data: AIR_PORTS,
-      dataTransform: (d) =>
-        d.features.filter((f) => f.properties.scalerank < 4),
+      dataTransform: (d: any) =>
+        d.features.filter((f: any) => f.properties.scalerank < 4),
       // Styles
-      getSourcePosition: (f) => [-0.4531566, 51.4709959], // London
+      getSourcePosition: () => [-0.4531566, 51.4709959], // London
       getTargetPosition: (f) => f.geometry.coordinates,
       getSourceColor: [0, 128, 200],
       getTargetColor: [200, 0, 80],
@@ -93,18 +86,6 @@ function Root() {
 
   return (
     <Map initialViewState={INITIAL_VIEW_STATE} mapStyle={MAP_STYLE}>
-      {selected && (
-        <Popup
-          key={selected.properties.name}
-          anchor="bottom"
-          style={{ zIndex: 10 }} /* position above deck.gl canvas */
-          longitude={selected.geometry.coordinates[0]}
-          latitude={selected.geometry.coordinates[1]}
-        >
-          {selected.properties.name} ({selected.properties.abbrev})
-        </Popup>
-      )}
-
       <DeckGLOverlay layers={layers} /* interleaved*/ />
       <NavigationControl position="top-left" />
 
